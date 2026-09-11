@@ -269,8 +269,33 @@ convert_openclaw() {
 
   local current_target="agents"  # default bucket
   local current_section=""
+  local fence_marker="" fence_len=0 fence_indent=0
 
   while IFS= read -r line; do
+    if [[ -n "$fence_marker" ]]; then
+      current_section+="$line"$'\n'
+      local re='^( {0,3})(`{3,}|~{3,})'
+      if [[ "$line" =~ $re ]]; then
+        local close_indent=${#BASH_REMATCH[1]}
+        local close_run="${BASH_REMATCH[2]}"
+        if [[ "${close_run:0:1}" == "$fence_marker" ]] && (( ${#close_run} >= fence_len )) && (( close_indent <= fence_indent )); then
+          fence_marker=""
+          fence_len=0
+          fence_indent=0
+        fi
+      fi
+      continue
+    fi
+
+    local re_open='^( {0,3})(`{3,}|~{3,})'
+    if [[ "$line" =~ $re_open ]]; then
+      fence_indent=${#BASH_REMATCH[1]}
+      fence_marker="${BASH_REMATCH[2]:0:1}"
+      fence_len=${#BASH_REMATCH[2]}
+      current_section+="$line"$'\n'
+      continue
+    fi
+
     # Detect ## headers (with or without emoji prefixes)
     if [[ "$line" =~ ^##[[:space:]] ]]; then
       # Flush previous section
