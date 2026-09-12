@@ -64,8 +64,33 @@ lint_file() {
   local body
   body=$(awk 'BEGIN{n=0} /^---$/{n++; next} n>=2{print}' "$file")
 
+  # Strip out fenced code blocks before checking for recommended sections
+  # to avoid false positives where a section is only mentioned inside a runbook/example
+  local body_no_fences
+  body_no_fences=$(echo "$body" | awk '
+    BEGIN { in_fence = 0; fence_marker = ""; fence_len = 0 }
+    {
+      if (match($0, /^(`{3,}|~{3,})/)) {
+        marker = substr($0, RSTART, RLENGTH)
+        if (in_fence == 0) {
+          in_fence = 1
+          fence_marker = substr(marker, 1, 1)
+          fence_len = length(marker)
+        } else if (substr(marker, 1, 1) == fence_marker && length(marker) >= fence_len) {
+          in_fence = 0
+          fence_marker = ""
+          fence_len = 0
+        }
+        next
+      }
+      if (in_fence == 0) {
+        print
+      }
+    }
+  ')
+
   for section in "${RECOMMENDED_SECTIONS[@]}"; do
-    if ! echo "$body" | grep -qi "$section"; then
+    if ! echo "$body_no_fences" | grep -qi "$section"; then
       echo "WARN  $file: missing recommended section '${section}'"
       warnings=$((warnings + 1))
     fi

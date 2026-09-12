@@ -269,10 +269,25 @@ convert_openclaw() {
 
   local current_target="agents"  # default bucket
   local current_section=""
+  local fence_re='^(`{3,}|~{3,})'
+  local fence_marker="" fence_len=0
 
   while IFS= read -r line; do
-    # Detect ## headers (with or without emoji prefixes)
-    if [[ "$line" =~ ^##[[:space:]] ]]; then
+    if [[ "$line" =~ $fence_re ]]; then
+      local marker="${BASH_REMATCH[1]}"
+      if [[ -z "$fence_marker" ]]; then
+        fence_marker="${marker:0:1}"
+        fence_len=${#marker}
+      elif [[ "${marker:0:1}" == "$fence_marker" && ${#marker} -ge $fence_len ]]; then
+        fence_marker=""
+        fence_len=0
+      fi
+      current_section+="$line"$'\n'
+      continue
+    fi
+
+    # Detect ## headers (with or without emoji prefixes) outside of code fences
+    if [[ -z "$fence_marker" && "$line" =~ ^##[[:space:]] ]]; then
       # Flush previous section
       if [[ -n "$current_section" ]]; then
         if [[ "$current_target" == "soul" ]]; then
@@ -417,7 +432,7 @@ accumulate_aider() {
 
 ## ${name}
 
-> ${description}
+> "${description}"
 
 ${body}
 HEREDOC
@@ -435,7 +450,7 @@ accumulate_windsurf() {
 
 ================================================================================
 ## ${name}
-${description}
+"${description}"
 ================================================================================
 
 ${body}
