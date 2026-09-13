@@ -122,7 +122,7 @@ convert_antigravity() {
   cat > "$outfile" <<HEREDOC
 ---
 name: ${slug}
-description: ${description}
+description: "${description}"
 risk: low
 source: community
 date_added: '${TODAY}'
@@ -148,7 +148,7 @@ convert_gemini_cli() {
   cat > "$outfile" <<HEREDOC
 ---
 name: ${slug}
-description: ${description}
+description: "${description}"
 ---
 ${body}
 HEREDOC
@@ -216,7 +216,7 @@ convert_opencode() {
   cat > "$outfile" <<HEREDOC
 ---
 name: ${name}
-description: ${description}
+description: "${description}"
 mode: subagent
 color: '${color}'
 ---
@@ -239,7 +239,7 @@ convert_cursor() {
   # Cursor .mdc format: description + globs + alwaysApply frontmatter
   cat > "$outfile" <<HEREDOC
 ---
-description: ${description}
+description: "${description}"
 globs: ""
 alwaysApply: false
 ---
@@ -357,7 +357,7 @@ convert_qwen() {
     cat > "$outfile" <<HEREDOC
 ---
 name: ${slug}
-description: ${description}
+description: "${description}"
 tools: ${tools}
 ---
 ${body}
@@ -366,7 +366,7 @@ HEREDOC
     cat > "$outfile" <<HEREDOC
 ---
 name: ${slug}
-description: ${description}
+description: "${description}"
 ---
 ${body}
 HEREDOC
@@ -417,7 +417,7 @@ accumulate_aider() {
 
 ## ${name}
 
-> ${description}
+> "${description}"
 
 ${body}
 HEREDOC
@@ -435,7 +435,7 @@ accumulate_windsurf() {
 
 ================================================================================
 ## ${name}
-${description}
+"${description}"
 ================================================================================
 
 ${body}
