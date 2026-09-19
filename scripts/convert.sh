@@ -405,11 +405,13 @@ HEREDOC
 
 accumulate_aider() {
   local file="$1"
-  local name description body
+  local name description body formatted_desc
 
   name="$(get_field "name" "$file")"
   description="$(get_field "description" "$file")"
   body="$(get_body "$file")"
+
+  formatted_desc="$(printf '%s' "$description" | awk '{print "> " $0}')"
 
   cat >> "$AIDER_TMP" <<HEREDOC
 
@@ -417,7 +419,7 @@ accumulate_aider() {
 
 ## ${name}
 
-> ${description}
+${formatted_desc}
 
 ${body}
 HEREDOC
@@ -435,7 +437,7 @@ accumulate_windsurf() {
 
 ================================================================================
 ## ${name}
-${description}
+"${description}"
 ================================================================================
 
 ${body}
