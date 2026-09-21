@@ -427,7 +427,16 @@ install_aider() {
   local dest="${PWD}/CONVENTIONS.md"
   [[ -f "$src" ]] || { err "integrations/aider/CONVENTIONS.md missing. Run convert.sh first."; return 1; }
   if [[ -f "$dest" ]]; then
-    warn "Aider: CONVENTIONS.md already exists at $dest (remove to reinstall)."
+    local first_line
+    first_line="$(head -n 1 "$dest" 2>/dev/null || true)"
+    if [[ "$first_line" == "# The Agency — AI Agent Conventions" ]]; then
+      local size
+      size=$(wc -c < "$dest" | tr -d ' ')
+      warn "Aider: CONVENTIONS.md is an Agency roster index from an earlier install ($size bytes)."
+      warn "Aider: Delete it and re-run this installer to pick up the smaller file."
+    else
+      warn "Aider: CONVENTIONS.md already exists at $dest (leaving your file alone)."
+    fi
     return 0
   fi
   cp "$src" "$dest"
