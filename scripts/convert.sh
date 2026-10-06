@@ -411,13 +411,17 @@ accumulate_aider() {
   description="$(get_field "description" "$file")"
   body="$(get_body "$file")"
 
+  # Prefix all lines of description with '> ' to keep valid markdown blockquote
+  local formatted_description
+  formatted_description="$(printf '%s\n' "$description" | sed 's/^/> /')"
+
   cat >> "$AIDER_TMP" <<HEREDOC
 
 ---
 
 ## ${name}
 
-> ${description}
+${formatted_description}
 
 ${body}
 HEREDOC
@@ -435,7 +439,9 @@ accumulate_windsurf() {
 
 ================================================================================
 ## ${name}
+"""
 ${description}
+"""
 ================================================================================
 
 ${body}
