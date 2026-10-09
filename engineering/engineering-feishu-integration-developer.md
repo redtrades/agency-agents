@@ -502,8 +502,8 @@ router.get('/login/feishu', (req, res) => {
   res.redirect(
     `https://open.feishu.cn/open-apis/authen/v1/authorize` +
     `?app_id=${process.env.FEISHU_APP_ID}` +
-    `&redirect_uri=${redirectUri}` +
-    `&state=${state}`
+    `&redirect_uri=${ redirectUri}` +
+    `&state=${ state}`
   );
 });
 
@@ -530,7 +530,7 @@ router.get('/callback/feishu', async (req, res) => {
 
   // Step 3: Retrieve user info
   const userResp = await client.authen.userInfo.get({
-    headers: { Authorization: `Bearer ${userToken}` },
+    headers: { Authorization: `Bearer ${ userToken}` },
   });
 
   const feishuUser = userResp.data;
@@ -544,7 +544,7 @@ router.get('/callback/feishu', async (req, res) => {
   });
 
   const jwt = signJwt({ userId: localUser.id });
-  res.redirect(`${process.env.FRONTEND_URL}/auth?token=${jwt}`);
+  res.redirect(`${process.env.FRONTEND_URL}/auth?token=${ jwt}`);
 });
 
 export default router;

@@ -90,12 +90,12 @@ const request = (options) => {
     const token = wx.getStorageSync('access_token');
 
     wx.request({
-      url: `${BASE_URL}${options.url}`,
+      url: `${ BASE_URL}${options.url}`,
       method: options.method || 'GET',
       data: options.data || {},
       header: {
         'Content-Type': 'application/json',
-        'Authorization': token ? `Bearer ${token}` : '',
+        'Authorization': token ? `Bearer ${ token}` : '',
         ...options.header,
       },
       success: (res) => {
@@ -216,7 +216,7 @@ Page({
 
   async loadProduct(id) {
     try {
-      const product = await request({ url: `/products/${id}` });
+      const product = await request({ url: `/products/${ id}` });
 
       // Minimize setData payload - only send what the view needs
       this.setData({

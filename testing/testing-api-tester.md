@@ -69,7 +69,7 @@ describe('User API Comprehensive Testing', () => {
 
   beforeAll(async () => {
     // Authenticate and get token
-    const response = await fetch(`${baseURL}/auth/login`, {
+    const response = await fetch(`${ baseURL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -89,11 +89,11 @@ describe('User API Comprehensive Testing', () => {
         role: 'user'
       };
 
-      const response = await fetch(`${baseURL}/users`, {
+      const response = await fetch(`${ baseURL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
+          'Authorization': `Bearer ${ authToken}`
         },
         body: JSON.stringify(userData)
       });
@@ -111,11 +111,11 @@ describe('User API Comprehensive Testing', () => {
         role: 'invalid_role'
       };
 
-      const response = await fetch(`${baseURL}/users`, {
+      const response = await fetch(`${ baseURL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
+          'Authorization': `Bearer ${ authToken}`
         },
         body: JSON.stringify(invalidData)
       });
@@ -129,7 +129,7 @@ describe('User API Comprehensive Testing', () => {
 
   describe('Security Testing', () => {
     test('should reject requests without authentication', async () => {
-      const response = await fetch(`${baseURL}/users`, {
+      const response = await fetch(`${ baseURL}/users`, {
         method: 'GET'
       });
       expect(response.status).toBe(401);
@@ -137,8 +137,8 @@ describe('User API Comprehensive Testing', () => {
 
     test('should prevent SQL injection attempts', async () => {
       const sqlInjection = "'; DROP TABLE users; --";
-      const response = await fetch(`${baseURL}/users?search=${sqlInjection}`, {
-        headers: { 'Authorization': `Bearer ${authToken}` }
+      const response = await fetch(`${ baseURL}/users?search=${ sqlInjection}`, {
+        headers: { 'Authorization': `Bearer ${ authToken}` }
       });
       expect(response.status).not.toBe(500);
       // Should return safe results or 400, not crash
@@ -146,8 +146,8 @@ describe('User API Comprehensive Testing', () => {
 
     test('should enforce rate limiting', async () => {
       const requests = Array(100).fill(null).map(() =>
-        fetch(`${baseURL}/users`, {
-          headers: { 'Authorization': `Bearer ${authToken}` }
+        fetch(`${ baseURL}/users`, {
+          headers: { 'Authorization': `Bearer ${ authToken}` }
         })
       );
 
@@ -161,8 +161,8 @@ describe('User API Comprehensive Testing', () => {
     test('should respond within performance SLA', async () => {
       const startTime = performance.now();
       
-      const response = await fetch(`${baseURL}/users`, {
-        headers: { 'Authorization': `Bearer ${authToken}` }
+      const response = await fetch(`${ baseURL}/users`, {
+        headers: { 'Authorization': `Bearer ${ authToken}` }
       });
       
       const endTime = performance.now();
@@ -175,8 +175,8 @@ describe('User API Comprehensive Testing', () => {
     test('should handle concurrent requests efficiently', async () => {
       const concurrentRequests = 50;
       const requests = Array(concurrentRequests).fill(null).map(() =>
-        fetch(`${baseURL}/users`, {
-          headers: { 'Authorization': `Bearer ${authToken}` }
+        fetch(`${ baseURL}/users`, {
+          headers: { 'Authorization': `Bearer ${ authToken}` }
         })
       );
 

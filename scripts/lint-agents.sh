@@ -76,6 +76,12 @@ lint_file() {
     echo "WARN  $file: body seems very short (< 50 words)"
     warnings=$((warnings + 1))
   fi
+
+  # 5. Check for Qwen Code interpolation issues (ERROR)
+  if echo "$body" | grep -qE '\$\{[a-zA-Z_][a-zA-Z0-9_]*\}'; then
+    echo "ERROR $file: contains \${identifier} which breaks Qwen Code interpolation"
+    errors=$((errors + 1))
+  fi
 }
 
 # Collect files to lint

@@ -172,7 +172,7 @@ class GraphBuilder {
     // Phase 2: Create file nodes
     for (const file of files) {
       graph.addNode({
-        id: `file:${file}`,
+        id: `file:${ file}`,
         kind: 'file',
         path: file
       });
@@ -191,7 +191,7 @@ class GraphBuilder {
           
           // Add contains edge
           graph.addEdge({
-            source: `file:${file}`,
+            source: `file:${ file}`,
             target: `sym:${sym.name}`,
             type: 'contains'
           });

@@ -88,7 +88,7 @@ export default function () {
   const baseUrl = __ENV.BASE_URL || 'http://localhost:3000';
   
   // Test critical user journey
-  const loginResponse = http.post(`${baseUrl}/api/auth/login`, {
+  const loginResponse = http.post(`${ baseUrl}/api/auth/login`, {
     email: 'test@example.com',
     password: 'password123'
   });
@@ -106,8 +106,8 @@ export default function () {
     const token = loginResponse.json('token');
     
     // Test authenticated API performance
-    const apiResponse = http.get(`${baseUrl}/api/dashboard`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const apiResponse = http.get(`${ baseUrl}/api/dashboard`, {
+      headers: { Authorization: `Bearer ${ token}` },
     });
     
     check(apiResponse, {

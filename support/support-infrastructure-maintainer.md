@@ -316,7 +316,7 @@ handle_error() {
 # Database backup function
 backup_database() {
     local db_name="$1"
-    local backup_file="${BACKUP_ROOT}/db/${db_name}_$(date +%Y%m%d_%H%M%S).sql.gz"
+    local backup_file="$BACKUP_ROOT/db/$db_name"_$(date +%Y%m%d_%H%M%S).sql.gz
     
     log "Starting database backup for $db_name"
     
@@ -346,7 +346,7 @@ backup_database() {
 backup_files() {
     local source_dir="$1"
     local backup_name="$2"
-    local backup_file="${BACKUP_ROOT}/files/${backup_name}_$(date +%Y%m%d_%H%M%S).tar.gz.gpg"
+    local backup_file="$BACKUP_ROOT/files/$backup_name"_$(date +%Y%m%d_%H%M%S).tar.gz.gpg
     
     log "Starting file backup for $source_dir"
     
