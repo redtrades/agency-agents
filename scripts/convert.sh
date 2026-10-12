@@ -351,6 +351,14 @@ convert_qwen() {
   outfile="$OUT_DIR/qwen/agents/${slug}.md"
   mkdir -p "$(dirname "$outfile")"
 
+  # Sanitize body for Qwen Code interpolation
+  local tmp_body_file
+  tmp_body_file=$(mktemp)
+  printf "%s\n" "$body" > "$tmp_body_file"
+  python3 "$SCRIPT_DIR/qwen_sanitize.py" "$tmp_body_file"
+  body=$(cat "$tmp_body_file")
+  rm -f "$tmp_body_file"
+
   # Qwen Code SubAgent format: .md with YAML frontmatter in ~/.qwen/agents/
   # name and description required; tools optional (only if present in source)
   if [[ -n "$tools" ]]; then

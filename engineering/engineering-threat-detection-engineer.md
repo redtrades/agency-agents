@@ -242,7 +242,7 @@ jobs:
           # Every rule must have: title, id, level, tags (ATT&CK), falsepositives
           for rule in detections/**/*.yml; do
             for field in title id level tags falsepositives; do
-              if ! grep -q "^${field}:" "$rule"; then
+              if ! grep -q "^$field:" "$rule"; then
                 echo "ERROR: $rule missing required field: $field"
                 exit 1
               fi
@@ -305,7 +305,7 @@ jobs:
           # Each rule should have a matching test case in tests/
           for rule in detections/**/*.yml; do
             rule_id=$(grep "^id:" "$rule" | awk '{print $2}')
-            test_file="tests/${rule_id}.json"
+            test_file="tests/$rule_id.json"
             if [ ! -f "$test_file" ]; then
               echo "WARN: No test case for rule $rule_id ($rule)"
             else
