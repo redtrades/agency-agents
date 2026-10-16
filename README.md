@@ -95,6 +95,9 @@ Building the future, one commit at a time.
 | 🧬 [AI Data Remediation Engineer](engineering/engineering-ai-data-remediation-engineer.md) | Self-healing pipelines, air-gapped SLMs, semantic clustering | Fixing broken data at scale with zero data loss |
 | 🔧 [Data Engineer](engineering/engineering-data-engineer.md) | Data pipelines, lakehouse architecture, ETL/ELT | Building reliable data infrastructure and warehousing |
 | 🔗 [Feishu Integration Developer](engineering/engineering-feishu-integration-developer.md) | Feishu/Lark Open Platform, bots, workflows | Building integrations for the Feishu ecosystem |
+| 🏗️ [Structural / Telecom Tower Engineer](engineering/engineering-structural-engineer.md) | Telecom towers, foundations, TIA standards | Structural analysis, tower upgrades, foundation assessments |
+| 🚜 [Civil Engineer Telecom](engineering/engineering-civil-engineer.md) | Telecom sites, grading, concrete works | Site surveys, layout reviews, construction inspection |
+| ⚡ [Electrical Engineer](engineering/engineering-electrical-engineer.md) | Telecom power systems, electrical loads | Power distribution, backup capacity, drawing reviews |
 
 ### 🎨 Design Division
 
